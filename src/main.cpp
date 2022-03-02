@@ -6,12 +6,14 @@
 */
 
 #include <iostream>
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
+
+#include "Boid.hpp"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "TEST");
+
+    Boid boid(&window, 400, 300);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -23,6 +25,8 @@ int main()
         }
 
         window.clear();
+
+        boid.draw();
 
         window.display(); 
     }

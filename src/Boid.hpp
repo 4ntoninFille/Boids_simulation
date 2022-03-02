@@ -8,13 +8,24 @@
 #ifndef BOID_HPP_
 #define BOID_HPP_
 
-class Boid {
-public:
-    Boid();
-    ~Boid();
+#include "AssetManager.hpp"
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
-protected:
-private:
+class Boid {
+    public:
+        Boid(sf::RenderWindow *window, float x, float y);
+        ~Boid();
+
+        void draw();
+
+        sf::Sprite      spriteBoid;
+
+    protected:
+    private:
+        sf::Texture         _textureBoid;
+        sf::RenderWindow *  _window;
+        sf::Vector2f        _position;
 };
 
 #endif /* !BOID_HPP_ */

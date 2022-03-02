@@ -5,9 +5,10 @@
 ## Makefile
 ##
 
-SRC			=	src/main.cpp
+SRC			=	src/main.cpp	\
+				src/Boid.cpp	\
 
-CXXFLAGS 	=	-Wall -Wextra -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS 	=	-Wall -Wextra -lsfml-graphics -lsfml-window -lsfml-system -g3
 NAME 		= 	boids_simulation
 
 OBJ = $(SRC:.cpp=.o)
