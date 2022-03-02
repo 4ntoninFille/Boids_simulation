@@ -10,8 +10,13 @@
 Core::Core(sf::RenderWindow *window)
     :   _window(window)
 {
-    Boid *adam = new Boid(window, 400, 300);
-    _boids.push_back(adam);
+    srand (static_cast <unsigned> (time(0)));
+    for (int i = 0; i < 40; i++) {
+        Boid *tmp = new Boid(window, 400, 300);
+        _boids.push_back(tmp);
+    }
+
+    _clock.restart();
 }
 
 Core::~Core()
@@ -44,6 +49,10 @@ void Core::loop()
 
 void Core::simuUpdate()
 {
+    _time = _clock.getElapsedTime();
+    if (_time.asMilliseconds() < 10)
+        return;
+    _clock.restart();
     for (auto it : _boids) {
         it->update();
     }

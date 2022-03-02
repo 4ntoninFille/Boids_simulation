@@ -12,6 +12,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
+#include <math.h>
+
+#include <iostream>
+
 class Boid {
     public:
         Boid(sf::RenderWindow *window, float x, float y);
@@ -27,6 +31,7 @@ class Boid {
         sf::Texture         _textureBoid;
         sf::RenderWindow *  _window;
         sf::Vector2f        _position;
+        sf::Vector2f        _dir;
 };
 
 #endif /* !BOID_HPP_ */

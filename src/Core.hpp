@@ -32,6 +32,9 @@ class Core {
     private:
         sf::RenderWindow *  _window;
         sf::Event           _event;
+        sf::Clock           _clock;
+        sf::Time            _time;
+
         std::vector<Boid *>   _boids;
 };
 
