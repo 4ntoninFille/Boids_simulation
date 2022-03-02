@@ -17,6 +17,7 @@ class Boid {
         Boid(sf::RenderWindow *window, float x, float y);
         ~Boid();
 
+        void update();
         void draw();
 
         sf::Sprite      spriteBoid;

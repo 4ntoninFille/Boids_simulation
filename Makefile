@@ -7,6 +7,7 @@
 
 SRC			=	src/main.cpp	\
 				src/Boid.cpp	\
+				src/Core.cpp	\
 
 CXXFLAGS 	=	-Wall -Wextra -lsfml-graphics -lsfml-window -lsfml-system -g3
 NAME 		= 	boids_simulation

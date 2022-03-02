@@ -20,6 +20,10 @@ Boid::~Boid()
 {
 }
 
+void Boid::update()
+{
+}
+
 void Boid::draw()
 {
     _window->draw(spriteBoid);

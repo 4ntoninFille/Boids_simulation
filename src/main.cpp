@@ -8,27 +8,14 @@
 #include <iostream>
 
 #include "Boid.hpp"
+#include "Core.hpp"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "TEST");
+    sf::RenderWindow window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT), "BOIDS SIMULATION");
 
-    Boid boid(&window, 400, 300);
+    Core simulation(&window);
 
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
-        }
-
-        window.clear();
-
-        boid.draw();
-
-        window.display(); 
-    }
+    simulation.loop();
     return 0;
 }
