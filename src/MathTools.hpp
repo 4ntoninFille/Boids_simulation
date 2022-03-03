@@ -18,6 +18,7 @@ public:
     ~MathTools();
 
     sf::Vector2f normaliseVector(sf::Vector2f) const;
+    int distance(sf::Vector2f p1, sf::Vector2f p2) const;
 
 protected:
 private:

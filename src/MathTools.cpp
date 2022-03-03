@@ -24,3 +24,8 @@ sf::Vector2f MathTools::normaliseVector(sf::Vector2f vector) const
 
     return vector;
 }
+
+int MathTools::distance(sf::Vector2f p1, sf::Vector2f p2) const
+{
+    return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.x, 2));
+}
