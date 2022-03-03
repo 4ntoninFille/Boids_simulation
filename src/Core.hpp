@@ -18,6 +18,8 @@
 
 #include <vector>
 
+class Boid;
+
 class Core {
     public:
         Core(sf::RenderWindow *window);
@@ -27,6 +29,8 @@ class Core {
 
         void simuDraw();
         void simuUpdate();
+
+        sf::RenderWindow *  getWindow() const;
 
     protected:
     private:

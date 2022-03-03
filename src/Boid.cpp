@@ -7,8 +7,8 @@
 
 #include "Boid.hpp"
 
-Boid::Boid(sf::RenderWindow *window, float x, float y)
-    :   _window(window), _position(sf::Vector2f(x, y))
+Boid::Boid(Core &coreRef, float x, float y)
+    :   _coreRef(&coreRef), _position(sf::Vector2f(x, y))
 {
     float dx = (rand() % 10 + 1) - 5;
     float dy = (rand() % 10 + 1) - 5;
@@ -35,5 +35,5 @@ void Boid::update()
 
 void Boid::draw()
 {
-    _window->draw(spriteBoid);
+    _coreRef->getWindow()->draw(spriteBoid);
 }

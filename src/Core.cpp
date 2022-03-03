@@ -12,7 +12,7 @@ Core::Core(sf::RenderWindow *window)
 {
     srand (static_cast <unsigned> (time(0)));
     for (int i = 0; i < 500; i++) {
-        Boid *tmp = new Boid(window, 400, 300);
+        Boid *tmp = new Boid(*this, 400, 300);
         _boids.push_back(tmp);
     }
 
@@ -63,4 +63,9 @@ void Core::simuDraw()
     for (auto it : _boids) {
         it->draw();
     }
+}
+
+sf::RenderWindow *Core::getWindow() const
+{
+    return _window;
 }

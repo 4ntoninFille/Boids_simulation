@@ -15,10 +15,13 @@
 #include <SFML/Window.hpp>
 
 #include <iostream>
+#include "Core.hpp"
+
+class Core;
 
 class Boid : public MathTools {
     public:
-        Boid(sf::RenderWindow *window, float x, float y);
+        Boid(Core &coreRef, float x, float y);
         ~Boid();
 
         void update();
@@ -29,7 +32,8 @@ class Boid : public MathTools {
     protected:
     private:
         sf::Texture         _textureBoid;
-        sf::RenderWindow *  _window;
+
+        Core *              _coreRef;
         sf::Vector2f        _position;
         sf::Vector2f        _dir;
 };
