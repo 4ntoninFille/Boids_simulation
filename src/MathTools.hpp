@@ -17,8 +17,9 @@ public:
     MathTools();
     ~MathTools();
 
-    sf::Vector2f normaliseVector(sf::Vector2f) const;
-    int distance(sf::Vector2f p1, sf::Vector2f p2) const;
+    sf::Vector2f    normaliseVector(sf::Vector2f vec, int mag) const;
+    int             distance(sf::Vector2f p1, sf::Vector2f p2) const;
+    sf::Vector2f    addVector(sf::Vector2f v1, sf::Vector2f v2) const;
 
 protected:
 private:

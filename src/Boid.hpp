@@ -10,12 +10,9 @@
 
 #include "AssetManager.hpp"
 #include "MathTools.hpp"
-
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
+#include "Core.hpp"
 
 #include <iostream>
-#include "Core.hpp"
 
 class Core;
 
@@ -31,11 +28,15 @@ class Boid : public MathTools {
 
     protected:
     private:
+        void align(std::vector<Boid *> boids);
+        void edge();
+
         sf::Texture         _textureBoid;
 
         Core *              _coreRef;
         sf::Vector2f        _position;
         sf::Vector2f        _dir;
+        sf::Vector2f        _acceleration;
 };
 
 #endif /* !BOID_HPP_ */

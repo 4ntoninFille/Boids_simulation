@@ -11,8 +11,8 @@ Core::Core(sf::RenderWindow *window)
     :   _window(window)
 {
     srand (static_cast <unsigned> (time(0)));
-    for (int i = 0; i < 500; i++) {
-        Boid *tmp = new Boid(*this, 400, 300);
+    for (int i = 0; i < 50; i++) {
+        Boid *tmp = new Boid(*this, rand() % WIN_WIDTH, rand() % WIN_HEIGHT);
         _boids.push_back(tmp);
     }
 
@@ -38,7 +38,7 @@ void Core::loop()
             }
         }
 
-        _window->clear();
+        _window->clear({10,10,200});
 
         this->simuUpdate();
         this->simuDraw();
@@ -68,4 +68,9 @@ void Core::simuDraw()
 sf::RenderWindow *Core::getWindow() const
 {
     return _window;
+}
+
+std::vector<Boid *> Core::getBoids() const
+{
+    return _boids;
 }

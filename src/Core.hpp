@@ -31,6 +31,7 @@ class Core {
         void simuUpdate();
 
         sf::RenderWindow *  getWindow() const;
+        std::vector<Boid *>   getBoids() const;
 
     protected:
     private:
