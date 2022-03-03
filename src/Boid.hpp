@@ -9,14 +9,14 @@
 #define BOID_HPP_
 
 #include "AssetManager.hpp"
+#include "MathTools.hpp"
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-#include <math.h>
-
 #include <iostream>
 
-class Boid {
+class Boid : public MathTools {
     public:
         Boid(sf::RenderWindow *window, float x, float y);
         ~Boid();

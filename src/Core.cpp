@@ -11,7 +11,7 @@ Core::Core(sf::RenderWindow *window)
     :   _window(window)
 {
     srand (static_cast <unsigned> (time(0)));
-    for (int i = 0; i < 40; i++) {
+    for (int i = 0; i < 500; i++) {
         Boid *tmp = new Boid(window, 400, 300);
         _boids.push_back(tmp);
     }

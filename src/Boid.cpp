@@ -13,15 +13,11 @@ Boid::Boid(sf::RenderWindow *window, float x, float y)
     float dx = (rand() % 10 + 1) - 5;
     float dy = (rand() % 10 + 1) - 5;
 
-    float div = sqrt(pow(x, 2) + pow(y, 2));
- 
-    _dir.x = (dx / div) * 100;
-    _dir.y = (dy / div) * 100;
-
-    std::cout << _dir.x << std::endl;
-
     spriteBoid = sf::Sprite();
     spriteBoid.setPosition(_position);
+
+    _dir = normaliseVector({dx, dy});
+
     // _textureBoid = AssetManager<sf::Texture>::getAssetManager().getAsset("assets/boid.png");
     _textureBoid = AssetManager<sf::Texture>::getAssetManager().getAsset("assets/ball.png");
 
