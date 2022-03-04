@@ -27,6 +27,7 @@ Boid::Boid(Core &coreRef, float x, float y, int id)
     _maxSpeed = 5;
     _dir = normaliseVector({dx, dy});
     _dir = setMagnitudeVector(_dir, _maxSpeed);
+    _boidSize = 10;
 
     // std::cout << "position:(" << _position.x << ";" << _position.y << ") v=" 
     //     << _dir.x << ", " << _dir.y << " | "
@@ -75,18 +76,18 @@ void Boid::align(std::vector<Boid *> boids)
         // << "\t\t" << _position.x << ";" << _position.y
         // << " | " << it->_position.x << ";" << it->_position.y << std::endl;
         if (dist < 200 && it != this) {
-            // std::cout << "BOOM" << std::endl;
-            // desired.x += it->_dir.x;
-            // desired.y += it->_dir.y;
+            desired.x += it->_dir.x;
+            desired.y += it->_dir.y;
 
-            // dif.x = _position.x - it->_position.x;
-            // dif.y = _position.y - it->_position.y;
+            dif.x = _position.x - it->_position.x;
+            dif.y = _position.y - it->_position.y;
 
-            // dif.x /= dist;
-            // dif.y /= dist;
+            dif.x /= dist;
+            dif.y /= dist;
 
-            avgx += it->_dir.x;
-            avgy += it->_dir.y;
+            //     alignement + cohsion + separetion
+            avgx += it->_dir.x + dif.x;
+            avgy += it->_dir.y + dif.y;
 
             count += 1;
         }
@@ -107,14 +108,14 @@ void Boid::align(std::vector<Boid *> boids)
 
 void Boid::edge()
 {
-    if (_position.x > WIN_WIDTH + 10) {
-        _position.x = -10;
-    } else if (_position.x < -10) {
-        _position.x = WIN_WIDTH - 10;
+    if (_position.x > WIN_WIDTH + _boidSize) {
+        _position.x = -_boidSize;
+    } else if (_position.x < -_boidSize) {
+        _position.x = WIN_WIDTH - _boidSize;
     }
-    if (_position.y > WIN_HEIGHT + 10) {
-        _position.y = -10;
-    } else if (_position.y < 0 - 10) {
-        _position.y = WIN_HEIGHT - 10;
+    if (_position.y > WIN_HEIGHT + _boidSize) {
+        _position.y = -_boidSize;
+    } else if (_position.y < 0 - _boidSize) {
+        _position.y = WIN_HEIGHT - _boidSize;
     }
 }

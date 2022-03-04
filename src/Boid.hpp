@@ -43,6 +43,8 @@ class Boid : public MathTools {
         int                 _id;
         float               _maxForce;
         float               _maxSpeed;
+
+        int                 _boidSize;
 };
 
 #endif /* !BOID_HPP_ */
