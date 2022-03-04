@@ -8,8 +8,8 @@
 #ifndef CORE_HPP_
 #define CORE_HPP_
 
-#define WIN_WIDTH 800
-#define WIN_HEIGHT 600
+#define WIN_WIDTH 1920
+#define WIN_HEIGHT 1080
 
 #include "Boid.hpp"
 

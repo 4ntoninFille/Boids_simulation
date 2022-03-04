@@ -13,18 +13,21 @@
 #include "Core.hpp"
 
 #include <iostream>
+#include <unistd.h>
+
 
 class Core;
 
 class Boid : public MathTools {
     public:
-        Boid(Core &coreRef, float x, float y);
+        Boid(Core &coreRef, float x, float y, int id);
         ~Boid();
 
         void update();
         void draw();
 
         sf::Sprite      spriteBoid;
+        sf::Vertex      *line;
 
     protected:
     private:
@@ -37,6 +40,9 @@ class Boid : public MathTools {
         sf::Vector2f        _position;
         sf::Vector2f        _dir;
         sf::Vector2f        _acceleration;
+        int                 _id;
+        float               _maxForce;
+        float               _maxSpeed;
 };
 
 #endif /* !BOID_HPP_ */
