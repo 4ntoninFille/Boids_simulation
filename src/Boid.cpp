@@ -45,8 +45,8 @@ Boid::~Boid()
 
 void Boid::update()
 {
-    edge();
     align(_coreRef->getBoids());
+    edge();
 
     _position = addVector(_dir, _position);
     _dir = addVector(_dir, _acceleration);
@@ -130,7 +130,7 @@ void Boid::align(std::vector<Boid *> boids)
 
         vectorSeparation = limitVector(vectorSeparation, _maxForce);
 
-        finalVector +=  vectorAlignement + vectorCohesion + multVector(vectorSeparation, {1.2, 1.2});
+        finalVector +=  vectorAlignement + vectorCohesion + vectorSeparation;
 
     }
     _acceleration = finalVector;
@@ -138,14 +138,17 @@ void Boid::align(std::vector<Boid *> boids)
 
 void Boid::edge()
 {
-    if (_position.x > WIN_WIDTH + _boidSize) {
-        _position.x = -_boidSize;
-    } else if (_position.x < -_boidSize) {
-        _position.x = WIN_WIDTH - _boidSize;
+    if (_position.x > WIN_WIDTH - 40) {
+        _acceleration.x -= 0.5;
+    } else if (_position.x < 40) {
+        _acceleration.x += 0.5;
     }
-    if (_position.y > WIN_HEIGHT + _boidSize) {
-        _position.y = -_boidSize;
-    } else if (_position.y < 0 - _boidSize) {
-        _position.y = WIN_HEIGHT - _boidSize;
+
+    if (_position.y > WIN_HEIGHT - 40) {
+        _acceleration.y -= 0.5;
+    } else if (_position.y < 40) {
+        _acceleration.y += 0.5;
     }
+
+    _acceleration = limitVector(_acceleration, _maxSpeed);
 }
