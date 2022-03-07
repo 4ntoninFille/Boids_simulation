@@ -32,6 +32,11 @@ sf::Vector2f MathTools::normaliseVector(sf::Vector2f vector) const
     return vector;
 }
 
+sf::Vector2f MathTools::multVector(sf::Vector2f v1, sf::Vector2f v2) const
+{
+    return {(v1.x * v2.x), (v1.y * v2.y)};
+}
+
 float MathTools::distance(sf::Vector2f p1, sf::Vector2f p2) const
 {
     float dist  = sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));

@@ -18,6 +18,7 @@ public:
     ~MathTools();
 
     sf::Vector2f    normaliseVector(sf::Vector2f vec) const;
+    sf::Vector2f    multVector(sf::Vector2f v1, sf::Vector2f v2) const;
     sf::Vector2f    setMagnitudeVector(sf::Vector2f vec, float mag) const;
     sf::Vector2f    limitVector(sf::Vector2f vec, float maxForce) const;
     float           distance(sf::Vector2f p1, sf::Vector2f p2) const;

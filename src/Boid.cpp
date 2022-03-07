@@ -24,10 +24,10 @@ Boid::Boid(Core &coreRef, float x, float y, int id)
     spriteBoid.setPosition(_position);
 
     _maxForce = 0.1;
-    _maxSpeed = 5;
+    _maxSpeed = 10;
     _dir = normaliseVector({dx, dy});
     _dir = setMagnitudeVector(_dir, _maxSpeed);
-    _boidSize = 10;
+    _boidSize = 5;
 
     // std::cout << "position:(" << _position.x << ";" << _position.y << ") v=" 
     //     << _dir.x << ", " << _dir.y << " | "
@@ -130,7 +130,7 @@ void Boid::align(std::vector<Boid *> boids)
 
         vectorSeparation = limitVector(vectorSeparation, _maxForce);
 
-        finalVector +=  vectorAlignement + vectorCohesion + vectorSeparation;
+        finalVector +=  vectorAlignement + vectorCohesion + multVector(vectorSeparation, {1.2, 1.2});
 
     }
     _acceleration = finalVector;
