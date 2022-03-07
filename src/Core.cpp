@@ -60,8 +60,13 @@ void Core::simuDraw()
 
 void Core::events()
 {
-    while (_window->pollEvent(_event))
-    {
+    while (_window->pollEvent(_event)) {
+        if (_event.type == sf::Event::MouseButtonPressed) {
+            if (_event.mouseButton.button == sf::Mouse::Left) {
+                _boids.push_back(new Boid(*this, _event.mouseButton.x, _event.mouseButton.y, -1));
+            }
+        }
+
         if (_event.type == sf::Event::Closed) {
             _window->close();
             return;
