@@ -35,6 +35,8 @@ class Core {
 
     protected:
     private:
+        void events();
+
         sf::RenderWindow *  _window;
         sf::Event           _event;
         sf::Clock           _clock;

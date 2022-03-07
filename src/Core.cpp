@@ -29,14 +29,7 @@ Core::~Core()
 void Core::loop()
 {
     while (_window->isOpen()) {
-        sf::Event event;
-        while (_window->pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed) {
-                _window->close();
-                return;
-            }
-        }
+        events();
 
         _window->clear();
 
@@ -62,6 +55,17 @@ void Core::simuDraw()
 {
     for (auto it : _boids) {
         it->draw();
+    }
+}
+
+void Core::events()
+{
+    while (_window->pollEvent(_event))
+    {
+        if (_event.type == sf::Event::Closed) {
+            _window->close();
+            return;
+        }
     }
 }
 
