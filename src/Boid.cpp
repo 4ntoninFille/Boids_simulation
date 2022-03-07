@@ -63,47 +63,77 @@ void Boid::draw()
 void Boid::align(std::vector<Boid *> boids)
 {
     int count = 0;
-    sf::Vector2f desired = {0, 0};
 
-    float avgx = 0;
-    float avgy = 0;
-    sf::Vector2f dif = {0, 0};
+    sf::Vector2f vectorAlignement = {0, 0};
+    sf::Vector2f vectorSeparation = {0, 0};
+    sf::Vector2f vectorCohesion = {0, 0};
+
+    sf::Vector2f finalVector = {0, 0};
+
     float dist = 0;
 
     for (auto it : boids) {
         dist = distance(this->_position, it->_position);
-        // std::cout << "id[" << _id << "]" << distance(this->_position, it->_position)
-        // << "\t\t" << _position.x << ";" << _position.y
-        // << " | " << it->_position.x << ";" << it->_position.y << std::endl;
-        if (dist < 200 && it != this) {
-            desired.x += it->_dir.x;
-            desired.y += it->_dir.y;
+        if (dist < 100 && it != this) {
+            //  alignement;
+            vectorAlignement.x += it->_dir.x;
+            vectorAlignement.y += it->_dir.y;
 
-            dif.x = _position.x - it->_position.x;
-            dif.y = _position.y - it->_position.y;
+            //  cohesion
+            vectorCohesion += it->_position;
 
-            dif.x /= dist;
-            dif.y /= dist;
+            //  separation 
+            vectorSeparation.x = _position.x - it->_position.x;
+            vectorSeparation.y = _position.y - it->_position.y;
 
-            //     alignement + cohsion + separetion
-            avgx += it->_dir.x + dif.x;
-            avgy += it->_dir.y + dif.y;
+            vectorSeparation.x /= dist;
+            vectorSeparation.y /= dist;
+
+            //     alignement + separetion
 
             count += 1;
         }
     }
     if (count > 0) {
-        desired.x = avgx / count;
-        desired.y = avgy / count;
+        //  alignement
+        vectorAlignement.x /= count;
+        vectorAlignement.y /= count;
 
-        desired = setMagnitudeVector(desired, _maxSpeed);
+        vectorAlignement = setMagnitudeVector(vectorAlignement, _maxSpeed);
 
-        desired.x -= _dir.x;
-        desired.y -= _dir.y;
+        vectorAlignement.x -= _dir.x;
+        vectorAlignement.y -= _dir.y;
 
-        desired = limitVector(desired, _maxForce);
+        vectorAlignement = limitVector(vectorAlignement, _maxForce);
+
+        //  cohesion
+
+        vectorCohesion.x /= count;
+        vectorCohesion.y /= count;
+
+        vectorCohesion -= _position;
+
+        vectorCohesion = setMagnitudeVector(vectorCohesion, _maxSpeed);
+
+        vectorCohesion -= _dir;
+
+        vectorCohesion = limitVector(vectorCohesion, _maxForce);
+
+        //  separation
+
+        vectorSeparation.x /= count;
+        vectorSeparation.y /= count;
+
+        vectorSeparation = setMagnitudeVector(vectorSeparation, _maxSpeed);
+
+        vectorSeparation -= _dir;
+
+        vectorSeparation = limitVector(vectorSeparation, _maxForce);
+
+        finalVector +=  vectorAlignement + vectorCohesion + vectorSeparation;
+
     }
-    _acceleration = desired;
+    _acceleration = finalVector;
 }
 
 void Boid::edge()
