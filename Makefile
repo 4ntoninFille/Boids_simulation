@@ -9,6 +9,8 @@ SRC			=	src/main.cpp		\
 				src/Boid.cpp		\
 				src/Core.cpp		\
 				src/MathTools.cpp	\
+				src/QTree.cpp		\
+				src/Boundary.cpp	\
 
 CXXFLAGS 	=	-Wall -Wextra -lsfml-graphics -lsfml-window -lsfml-system
 NAME 		= 	boids_simulation
