@@ -167,3 +167,13 @@ void Boid::addCoefSeparation(float value)
 {
     _coefSeparation += value;
 }
+
+float Boid::getPositionX() const
+{
+    return _position.x;
+}
+
+float Boid::getPositionY() const
+{
+    return _position.y;
+}

@@ -33,6 +33,9 @@ class Boid : public MathTools {
         void addCoefCohesion(float value);
         void addCoefSeparation(float value);
 
+        float getPositionX() const;
+        float getPositionY() const;
+
     protected:
     private:
         void align(std::vector<Boid *> boids);
