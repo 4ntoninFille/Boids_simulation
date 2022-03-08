@@ -10,6 +10,8 @@
 Core::Core(sf::RenderWindow *window)
     :   _window(window)
 {
+    gridTree = new QTree(Boundary(WIN_WIDTH / 2, WIN_HEIGHT / 2, WIN_WIDTH, WIN_HEIGHT), window);
+
     srand (static_cast <unsigned> (time(0)));
     for (int i = 0; i < 400; i++) {
         Boid *tmp = new Boid(*this, rand() % WIN_WIDTH, rand() % WIN_HEIGHT, i);
@@ -43,6 +45,11 @@ void Core::loop()
 
 void Core::simuUpdate()
 {
+    gridTree->cleanTree();
+    for (auto it : _boids) {
+        gridTree->insertBoid(it);
+    }
+
     _time = _clock.getElapsedTime();
     if (_time.asMilliseconds() < 10)
         return;
@@ -57,6 +64,7 @@ void Core::simuDraw()
     for (auto it : _boids) {
         it->draw();
     }
+    gridTree->showBoundary();
 }
 
 void Core::events()
