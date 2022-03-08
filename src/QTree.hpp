@@ -13,7 +13,7 @@
 #include "Boundary.hpp"
 #include "Boid.hpp"
 
-class QTree;
+class Boid;
 
 class QTree {
 public:

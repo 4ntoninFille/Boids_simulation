@@ -15,6 +15,17 @@ QTree::QTree(Boundary bndry)
 
 QTree::~QTree()
 {
+    if (_divided) {
+        northEst->~QTree();
+        northWest->~QTree();
+        southEst->~QTree();
+        southWest->~QTree();
+    }
+
+    delete northEst;
+    delete northWest;
+    delete southEst;
+    delete southWest;
 }
 
 void QTree::insertBoid(Boid *newBoid)

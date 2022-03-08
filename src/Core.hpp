@@ -11,7 +11,8 @@
 #define WIN_WIDTH 1920
 #define WIN_HEIGHT 1080
 
-#include "Boid.hpp"
+// #include "Boid.hpp"
+#include "QTree.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -19,6 +20,7 @@
 #include <vector>
 
 class Boid;
+class QTree;
 
 class Core {
     public:
@@ -32,6 +34,8 @@ class Core {
 
         sf::RenderWindow *  getWindow() const;
         std::vector<Boid *>   getBoids() const;
+
+        QTree *gridTree;
 
     protected:
     private:

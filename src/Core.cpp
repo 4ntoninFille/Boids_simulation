@@ -24,6 +24,7 @@ Core::~Core()
     for (auto it : _boids) {
         delete it;
     }
+    delete gridTree;
 }
 
 void Core::loop()
