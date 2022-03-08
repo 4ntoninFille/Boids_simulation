@@ -67,6 +67,24 @@ void Core::events()
             }
         }
 
+        if (_event.type == sf::Event::KeyPressed) {
+            if (_event.key.code == sf::Keyboard::A) {
+                for (auto it : _boids) {
+                    it->addCoefAlignement(0.1);
+                }
+            }
+            if (_event.key.code == sf::Keyboard::C) {
+                for (auto it : _boids) {
+                    it->addCoefCohesion(0.1);
+                }
+            }
+            if (_event.key.code == sf::Keyboard::S) {
+                for (auto it : _boids) {
+                    it->addCoefSeparation(0.1);
+                }
+            }
+        }
+
         if (_event.type == sf::Event::Closed) {
             _window->close();
             return;

@@ -24,16 +24,14 @@ Boid::Boid(Core &coreRef, float x, float y, int id)
     spriteBoid.setPosition(_position);
 
     _maxForce = 0.1;
-    _maxSpeed = 10;
+    _maxSpeed = 5;
     _dir = normaliseVector({dx, dy});
     _dir = setMagnitudeVector(_dir, _maxSpeed);
     _boidSize = 5;
 
-    // std::cout << "position:(" << _position.x << ";" << _position.y << ") v=" 
-    //     << _dir.x << ", " << _dir.y << " | "
-    //     << dx << ", " << dy << std::endl;
-
-    // _textureBoid = AssetManager<sf::Texture>::getAssetManager().getAsset("assets/boid.png");
+    _coefAlignement = 1;
+    _coefCohesion = 0.5;
+    _coefSeparation = 1.2;
 
     _textureBoid = AssetManager<sf::Texture>::getAssetManager().getAsset("assets/ball.png");
     spriteBoid.setTexture(_textureBoid);
@@ -63,6 +61,7 @@ void Boid::draw()
 void Boid::align(std::vector<Boid *> boids)
 {
     int count = 0;
+    int countSeparation = 0;
 
     sf::Vector2f vectorAlignement = {0, 0};
     sf::Vector2f vectorSeparation = {0, 0};
@@ -74,7 +73,7 @@ void Boid::align(std::vector<Boid *> boids)
 
     for (auto it : boids) {
         dist = distance(this->_position, it->_position);
-        if (dist < 100 && it != this) {
+        if (dist < 50) {
             //  alignement;
             vectorAlignement.x += it->_dir.x;
             vectorAlignement.y += it->_dir.y;
@@ -83,13 +82,11 @@ void Boid::align(std::vector<Boid *> boids)
             vectorCohesion += it->_position;
 
             //  separation 
-            vectorSeparation.x = _position.x - it->_position.x;
-            vectorSeparation.y = _position.y - it->_position.y;
-
-            vectorSeparation.x /= dist;
-            vectorSeparation.y /= dist;
-
-            //     alignement + separetion
+            if (it != this && dist < 30) {
+                vectorSeparation.x = _position.x - it->_position.x;
+                vectorSeparation.y = _position.y - it->_position.y;
+                countSeparation += 1;
+            }
 
             count += 1;
         }
@@ -121,16 +118,20 @@ void Boid::align(std::vector<Boid *> boids)
 
         //  separation
 
-        vectorSeparation.x /= count;
-        vectorSeparation.y /= count;
+        if (countSeparation > 0) {
+            vectorSeparation.x /= count;
+            vectorSeparation.y /= count;
 
-        vectorSeparation = setMagnitudeVector(vectorSeparation, _maxSpeed);
+            vectorSeparation = setMagnitudeVector(vectorSeparation, _maxSpeed);
 
-        vectorSeparation -= _dir;
+            vectorSeparation -= _dir;
 
-        vectorSeparation = limitVector(vectorSeparation, _maxForce);
+            vectorSeparation = limitVector(vectorSeparation, _maxForce);
+        }
 
-        finalVector +=  vectorAlignement + vectorCohesion + vectorSeparation;
+        finalVector += multVector(vectorAlignement, {_coefAlignement, _coefAlignement})
+                        + multVector(vectorCohesion, {_coefCohesion, _coefCohesion})
+                        + multVector(vectorSeparation, {_coefSeparation, _coefSeparation});
 
     }
     _acceleration = finalVector;
@@ -151,4 +152,18 @@ void Boid::edge()
     }
 
     _acceleration = limitVector(_acceleration, _maxSpeed);
+}
+
+void Boid::addCoefAlignement(float value)
+{
+    _coefAlignement += value;
+}
+
+void Boid::addCoefCohesion(float value)
+{
+    _coefCohesion += value;
+}
+void Boid::addCoefSeparation(float value)
+{
+    _coefSeparation += value;
 }

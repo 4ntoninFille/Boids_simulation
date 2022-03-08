@@ -29,6 +29,10 @@ class Boid : public MathTools {
         sf::Sprite      spriteBoid;
         sf::Vertex      *line;
 
+        void addCoefAlignement(float value);
+        void addCoefCohesion(float value);
+        void addCoefSeparation(float value);
+
     protected:
     private:
         void align(std::vector<Boid *> boids);
@@ -43,6 +47,10 @@ class Boid : public MathTools {
         int                 _id;
         float               _maxForce;
         float               _maxSpeed;
+
+        float               _coefAlignement;
+        float               _coefCohesion;
+        float               _coefSeparation;
 
         int                 _boidSize;
 };
