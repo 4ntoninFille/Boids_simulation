@@ -18,6 +18,10 @@ Boid::Boid(Core &coreRef, float x, float y, int id)
         dy = (rand() % 10) - 5;
     }
 
+    if (_id == 1) {
+        spriteBoid.setColor({255, 0, 0, 255});
+    }
+
 
     spriteBoid = sf::Sprite();
     spriteBoid.setOrigin({10, 10});
@@ -28,6 +32,7 @@ Boid::Boid(Core &coreRef, float x, float y, int id)
     _dir = normaliseVector({dx, dy});
     _dir = setMagnitudeVector(_dir, _maxSpeed);
     _boidSize = 5;
+    _perception = 50;
 
     _coefAlignement = 1;
     _coefCohesion = 0.5;
@@ -43,6 +48,10 @@ Boid::~Boid()
 
 void Boid::update()
 {
+    // std::vector<Boid *> listboid;
+    // _coreRef->gridTree->query(_position.x, _position.y, _perception, &listboid);
+
+
     align(_coreRef->getBoids());
     edge();
 
@@ -72,25 +81,28 @@ void Boid::align(std::vector<Boid *> boids)
     float dist = 0;
 
     for (auto it : boids) {
-        dist = distance(this->_position, it->_position);
-        if (dist < 50) {
-            //  alignement;
-            vectorAlignement.x += it->_dir.x;
-            vectorAlignement.y += it->_dir.y;
-
-            //  cohesion
-            vectorCohesion += it->_position;
-
-            //  separation 
-            if (it != this && dist < 30) {
-                vectorSeparation.x = _position.x - it->_position.x;
-                vectorSeparation.y = _position.y - it->_position.y;
-                countSeparation += 1;
-            }
-
-            count += 1;
+        THEcount += 1;
+        dist = distance(_position, it->_position);
+        if (dist > _perception) {
+            continue;
         }
+        //  alignement;
+        vectorAlignement.x += it->_dir.x;
+        vectorAlignement.y += it->_dir.y;
+
+        //  cohesion
+        vectorCohesion += it->_position;
+
+        //  separation 
+        if (it != this && dist < 30) {
+            vectorSeparation.x = _position.x - it->_position.x;
+            vectorSeparation.y = _position.y - it->_position.y;
+            countSeparation += 1;
+        }
+
+        count += 1;
     }
+
     if (count > 0) {
         //  alignement
         vectorAlignement.x /= count;

@@ -76,13 +76,41 @@ void QTree::_division()
     _divided = true;
 }
 
+void QTree::query(float x, float y, float radius, std::vector<Boid *> *list)
+{
+    if (!boundary.intersect(x, y, radius * 2, radius * 2)) {
+        return;
+    } else {
+        for (auto it : boids) {
+            THEcount += 1;
+            if (sqrt(pow(it->getPositionX() - x, 2) + pow(it->getPositionY() - y, 2)) <= radius) {
+                list->push_back(it);
+                // it->spriteBoid.setColor({0, 255, 0, 255});
+            }
+        }
+
+        if (_divided) {
+            northEst->query(x, y, radius, list);
+            northWest->query(x, y, radius, list);
+            southEst->query(x, y, radius, list);
+            southWest->query(x, y, radius, list);
+        }
+    }
+
+    // sf::CircleShape shape(radius);
+    // shape.setOrigin(radius, radius);
+    // shape.setPosition({x, y});
+    // shape.setOutlineThickness(1);
+    // shape.setOutlineColor({255, 0, 0, 255});
+    
+    // shape.setFillColor({0, 0, 0, 255});
+    // _win->draw(shape);
+}
+
+// clean function to rework
 void QTree::cleanTree()
 {
     if (_divided) {
-        // northEst->cleanTree();
-        // northWest->cleanTree();
-        // southEst->cleanTree();
-        // southWest->cleanTree();
 
         boids.clear();
         
@@ -96,7 +124,7 @@ void QTree::cleanTree()
     }
 }
 
-void QTree::showBoundary() const
+void QTree::showBoundary()
 {
     if (_divided) {
         northEst->showBoundary();
@@ -104,14 +132,5 @@ void QTree::showBoundary() const
         southEst->showBoundary();
         southWest->showBoundary();
     }
-
-    sf::RectangleShape rec({boundary._width, boundary._height});
-    rec.setOrigin({boundary._width / 2, boundary._height / 2});
-    rec.setFillColor({0, 0, 0, 0});
-    rec.setOutlineThickness(1);
-    rec.setOutlineColor({255, 255, 255, 255});
-
-    rec.setPosition({boundary._x, boundary._y});
-
-    _win->draw(rec);
+    _win->draw(boundary.shaped);
 }

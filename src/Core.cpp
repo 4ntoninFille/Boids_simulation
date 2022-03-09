@@ -7,6 +7,8 @@
 
 #include "Core.hpp"
 
+int THEcount = 0;
+
 Core::Core(sf::RenderWindow *window)
     :   _window(window)
 {
@@ -56,7 +58,11 @@ void Core::simuUpdate()
     _clock.restart();
     for (auto it : _boids) {
         it->update();
+        it->spriteBoid.setColor({255, 255, 255, 255});
     }
+    // std::vector<Boid *> test = gridTree->query(960, 540, 100);
+    std::cout << THEcount << std::endl;
+    THEcount = 0;
 }
 
 void Core::simuDraw()

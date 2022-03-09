@@ -22,6 +22,9 @@
 class Boid;
 class QTree;
 
+
+extern int THEcount;
+
 class Core {
     public:
         Core(sf::RenderWindow *window);

@@ -50,6 +50,7 @@ class Boid : public MathTools {
         int                 _id;
         float               _maxForce;
         float               _maxSpeed;
+        float               _perception;
 
         float               _coefAlignement;
         float               _coefCohesion;

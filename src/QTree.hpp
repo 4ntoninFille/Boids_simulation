@@ -8,7 +8,7 @@
 #ifndef QTREE_HPP_
 #define QTREE_HPP_
 
-#define MAXBOID 4
+#define MAXBOID 50
 
 #include "Boundary.hpp"
 #include "Boid.hpp"
@@ -30,8 +30,10 @@ public:
     Boundary            boundary;
     std::vector<Boid *> boids;
 
-    void showBoundary() const;
-    void cleanTree();
+
+    void                query(float x, float y, float range, std::vector<Boid *> *boidsFind);
+    void                showBoundary();
+    void                cleanTree();
 
 protected:
 private:
