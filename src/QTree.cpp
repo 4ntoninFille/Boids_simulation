@@ -89,14 +89,24 @@ void QTree::_division()
 
 void QTree::query(float x, float y, float radius, std::vector<Boid *> *list)
 {
+    sf::RectangleShape test({radius * 2, radius * 2});
+    test.setOrigin({radius + radius / 2, radius + radius / 2});
+    test.setFillColor({0, 0, 0, 0});
+    test.setOutlineThickness(1);
+    test.setOutlineColor({255, 255, 255, 255});
+    test.setPosition(x, y);
+    _win->draw(test);
+
     if (!boundary.intersect(x, y, radius * 2, radius * 2)) {
         return;
     } else {
+        if (boids.size() > 0)
+            boundary.shaped.setFillColor({100, 100, 100, 100});
         for (auto it : boids) {
             THEcount += 1;
-            if (sqrt(pow(it->getPositionX() - x, 2) + pow(it->getPositionY() - y, 2)) <= radius) {
+            if (sqrt(pow(it->getPositionX() - x + radius / 2, 2) + pow(it->getPositionY() - y + radius / 2, 2)) < radius) {
                 list->push_back(it);
-                // it->spriteBoid.setColor({0, 255, 0, 255});
+                it->spriteBoid.setColor({0, 255, 0, 255});
             }
         }
 
@@ -108,14 +118,14 @@ void QTree::query(float x, float y, float radius, std::vector<Boid *> *list)
         }
     }
 
-    // sf::CircleShape shape(radius);
-    // shape.setOrigin(radius, radius);
-    // shape.setPosition({x, y});
-    // shape.setOutlineThickness(1);
-    // shape.setOutlineColor({255, 0, 0, 255});
+    sf::CircleShape shape(radius);
+    shape.setOrigin(radius + radius / 2, radius + radius / 2);
+    shape.setPosition({x, y});
+    shape.setOutlineThickness(1);
+    shape.setOutlineColor({255, 0, 0, 255});
     
-    // shape.setFillColor({0, 0, 0, 255});
-    // _win->draw(shape);
+    shape.setFillColor({0, 0, 0, 255});
+    _win->draw(shape);
 }
 
 // clean function to rework

@@ -8,7 +8,7 @@
 #ifndef QTREE_HPP_
 #define QTREE_HPP_
 
-#define MAXBOID 1
+#define MAXBOID 10
 
 #include "Boundary.hpp"
 #include "Boid.hpp"

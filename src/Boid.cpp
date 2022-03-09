@@ -48,11 +48,12 @@ Boid::~Boid()
 
 void Boid::update()
 {
-    // std::vector<Boid *> listboid;
+    std::vector<Boid *> listboid;
     // _coreRef->gridTree->query(_position.x, _position.y, _perception, &listboid);
 
 
     align(_coreRef->getBoids());
+    // align(listboid);
     edge();
 
     _position = addVector(_dir, _position);

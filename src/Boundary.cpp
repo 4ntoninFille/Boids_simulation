@@ -41,6 +41,7 @@ bool Boundary::contains(float ptx, float pty) const
 
 bool Boundary::intersect(float ptx, float pty, float width, float height) const
 {
+    
     return !(ptx - width > _x + _width
             || ptx + width < _x - _width
             || pty - height > _y + _height

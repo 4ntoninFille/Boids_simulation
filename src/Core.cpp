@@ -59,9 +59,11 @@ void Core::simuUpdate()
     _clock.restart();
     for (auto it : _boids) {
         it->update();
+        it->spriteBoid.setColor({255, 255, 255, 255});
     }
-    // std::vector<Boid *> test = gridTree->query(960, 540, 100);
-    // std::cout << THEcount << std::endl;
+    std::vector<Boid *> listboid;
+    gridTree->query(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y, 100, &listboid);
+    std::cout << THEcount << std::endl;
     THEcount = 0;
     // sleep(1);
 }
