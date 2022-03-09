@@ -49,7 +49,8 @@ class Core {
         sf::Clock           _clock;
         sf::Time            _time;
 
-        std::vector<Boid *>   _boids;
+        std::vector<Boid *>     _boids;
+        bool                    _visualQTree;
 };
 
 #endif /* !CORE_HPP_ */

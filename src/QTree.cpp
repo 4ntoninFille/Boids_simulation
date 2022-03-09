@@ -32,19 +32,22 @@ void QTree::insertBoid(Boid *newBoid)
         return;
     }
 
-    if (boids.size() <= MAXBOID) {
+    if (boids.size() < MAXBOID && !_divided) {
         boids.push_back(newBoid);
         return;
     }
-    
+
+    // if (boids.size() > MAXBOID) {
+    //     return;
+    // }
+
     if (!_divided) {
         _division();
     }
-
     northEst->insertBoid(newBoid);
-    northWest->insertBoid(newBoid);
-    southEst->insertBoid(newBoid);
-    southWest->insertBoid(newBoid);
+        northWest->insertBoid(newBoid);
+        southEst->insertBoid(newBoid);
+        southWest->insertBoid(newBoid);
 }
 
 void QTree::_division()
@@ -72,6 +75,14 @@ void QTree::_division()
                                     boundary._width / 2,
                                     boundary._height / 2),
                                     _win);
+
+    for (auto it : boids) {
+        northEst->insertBoid(it);
+        northWest->insertBoid(it);
+        southEst->insertBoid(it);
+        southWest->insertBoid(it);
+    }
+    boids.clear();
 
     _divided = true;
 }
@@ -120,6 +131,7 @@ void QTree::cleanTree()
         delete southWest;
         _divided = false;
     } else {
+        boids.clear();
         return;
     }
 }

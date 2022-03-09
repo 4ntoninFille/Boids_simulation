@@ -13,6 +13,7 @@ Core::Core(sf::RenderWindow *window)
     :   _window(window)
 {
     gridTree = new QTree(Boundary(WIN_WIDTH / 2, WIN_HEIGHT / 2, WIN_WIDTH, WIN_HEIGHT), window);
+    _visualQTree = false;
 
     srand (static_cast <unsigned> (time(0)));
     for (int i = 0; i < 400; i++) {
@@ -58,11 +59,11 @@ void Core::simuUpdate()
     _clock.restart();
     for (auto it : _boids) {
         it->update();
-        it->spriteBoid.setColor({255, 255, 255, 255});
     }
     // std::vector<Boid *> test = gridTree->query(960, 540, 100);
-    std::cout << THEcount << std::endl;
+    // std::cout << THEcount << std::endl;
     THEcount = 0;
+    // sleep(1);
 }
 
 void Core::simuDraw()
@@ -70,7 +71,8 @@ void Core::simuDraw()
     for (auto it : _boids) {
         it->draw();
     }
-    gridTree->showBoundary();
+    if (_visualQTree)
+        gridTree->showBoundary();
 }
 
 void Core::events()
@@ -96,6 +98,13 @@ void Core::events()
             if (_event.key.code == sf::Keyboard::S) {
                 for (auto it : _boids) {
                     it->addCoefSeparation(0.1);
+                }
+            }
+            if (_event.key.code == sf::Keyboard::Q) {
+                if (_visualQTree) {
+                    _visualQTree = false;
+                } else {
+                    _visualQTree = true;
                 }
             }
         }
