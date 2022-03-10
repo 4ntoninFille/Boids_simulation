@@ -18,19 +18,19 @@ Boid::Boid(Core &coreRef, float x, float y, int id)
         dy = (rand() % 10) - 5;
     }
 
-    bodyCircle = sf::CircleShape(1);
-    bodyCircle.setPosition(_position);
-
     _maxForce = 0.1;
     _maxSpeed = 5;
     _dir = normaliseVector({dx, dy});
     _dir = setMagnitudeVector(_dir, _maxSpeed);
-    _boidSize = 5;
+    _boidSize = 1;
     _perception = 100;
 
-    _coefAlignement = 5;
-    _coefCohesion = 0.5;
-    _coefSeparation = 15;
+    bodyCircle = sf::CircleShape(_boidSize);
+    bodyCircle.setPosition(_position);
+
+    _coefAlignement = 1;
+    _coefCohesion = 0.4;
+    _coefSeparation = 2;
 }
 
 Boid::~Boid()
@@ -87,7 +87,7 @@ void Boid::align(std::vector<Boid *> boids)
         vectorCohesion += it->_position;
 
         //  separation 
-        if (it != this && dist < 10) {
+        if (it != this && dist < _boidSize * 2) {
             vectorSeparation.x = _position.x - it->_position.x;
             vectorSeparation.y = _position.y - it->_position.y;
             countSeparation += 1;
