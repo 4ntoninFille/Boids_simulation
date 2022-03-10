@@ -26,28 +26,25 @@ QTree::~QTree()
     }
 }
 
-void QTree::insertBoid(Boid *newBoid)
+bool QTree::insertBoid(Boid *newBoid)
 {
     if (!boundary.contains(newBoid->getPositionX(), newBoid->getPositionY())) {
-        return;
+        return false;
     }
 
-    if (boids.size() < MAXBOID && !_divided) {
+    if ((boids.size() < MAXBOID && !_divided) || (boundary._width <= 20 && boundary._height <= 20)) {
         boids.push_back(newBoid);
-        return;
+        return true;
     }
-
-    // if (boids.size() > MAXBOID) {
-    //     return;
-    // }
 
     if (!_divided) {
         _division();
     }
-    northEst->insertBoid(newBoid);
-        northWest->insertBoid(newBoid);
-        southEst->insertBoid(newBoid);
-        southWest->insertBoid(newBoid);
+
+    return (northEst->insertBoid(newBoid) ||
+            northWest->insertBoid(newBoid) ||
+            southEst->insertBoid(newBoid) ||
+            southWest->insertBoid(newBoid));
 }
 
 void QTree::_division()
@@ -77,55 +74,44 @@ void QTree::_division()
                                     _win);
 
     for (auto it : boids) {
-        northEst->insertBoid(it);
-        northWest->insertBoid(it);
-        southEst->insertBoid(it);
-        southWest->insertBoid(it);
+        boids.clear();
+
+        if (northEst->insertBoid(it)) {
+            continue;
+        }
+        if (northWest->insertBoid(it)) {
+            continue;
+        }
+        if (southEst->insertBoid(it)) {
+            continue;
+        }
+        if (southWest->insertBoid(it)) {
+            continue;
+        }
     }
-    boids.clear();
 
     _divided = true;
 }
 
 void QTree::query(float x, float y, float radius, std::vector<Boid *> *list)
 {
-    sf::RectangleShape test({radius * 2, radius * 2});
-    test.setOrigin({radius + radius / 2, radius + radius / 2});
-    test.setFillColor({0, 0, 0, 0});
-    test.setOutlineThickness(1);
-    test.setOutlineColor({255, 255, 255, 255});
-    test.setPosition(x, y);
-    _win->draw(test);
-
-    if (!boundary.intersect(x, y, radius * 2, radius * 2)) {
+    if (!boundary.intersect(Boundary(x, y, radius * 2, radius * 2))) {
         return;
     } else {
-        if (boids.size() > 0)
-            boundary.shaped.setFillColor({100, 100, 100, 100});
-        for (auto it : boids) {
-            THEcount += 1;
-            if (sqrt(pow(it->getPositionX() - x + radius / 2, 2) + pow(it->getPositionY() - y + radius / 2, 2)) < radius) {
-                list->push_back(it);
-                it->spriteBoid.setColor({0, 255, 0, 255});
+        if (!_divided) {
+            for (auto it : boids) {
+                THEcount += 1;
+                if (sqrt(pow(it->getPositionX() - (x), 2) + pow(it->getPositionY() - (y), 2)) < radius) {
+                    list->push_back(it);
+                }
             }
-        }
-
-        if (_divided) {
+        } else {
             northEst->query(x, y, radius, list);
             northWest->query(x, y, radius, list);
             southEst->query(x, y, radius, list);
             southWest->query(x, y, radius, list);
         }
     }
-
-    sf::CircleShape shape(radius);
-    shape.setOrigin(radius + radius / 2, radius + radius / 2);
-    shape.setPosition({x, y});
-    shape.setOutlineThickness(1);
-    shape.setOutlineColor({255, 0, 0, 255});
-    
-    shape.setFillColor({0, 0, 0, 255});
-    _win->draw(shape);
 }
 
 // clean function to rework

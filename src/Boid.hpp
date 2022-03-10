@@ -26,7 +26,7 @@ class Boid : public MathTools {
         void update();
         void draw();
 
-        sf::Sprite      spriteBoid;
+        sf::CircleShape bodyCircle;
         sf::Vertex      *line;
 
         void addCoefAlignement(float value);
@@ -35,19 +35,17 @@ class Boid : public MathTools {
 
         float getPositionX() const;
         float getPositionY() const;
+        int                 _id;
 
     protected:
     private:
         void align(std::vector<Boid *> boids);
         void edge();
 
-        sf::Texture         _textureBoid;
-
         Core *              _coreRef;
         sf::Vector2f        _position;
         sf::Vector2f        _dir;
         sf::Vector2f        _acceleration;
-        int                 _id;
         float               _maxForce;
         float               _maxSpeed;
         float               _perception;

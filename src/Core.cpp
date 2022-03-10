@@ -14,9 +14,10 @@ Core::Core(sf::RenderWindow *window)
 {
     gridTree = new QTree(Boundary(WIN_WIDTH / 2, WIN_HEIGHT / 2, WIN_WIDTH, WIN_HEIGHT), window);
     _visualQTree = false;
+    _pause = false;
 
     srand (static_cast <unsigned> (time(0)));
-    for (int i = 0; i < 400; i++) {
+    for (int i = 0; i < 500; i++) {
         Boid *tmp = new Boid(*this, rand() % WIN_WIDTH, rand() % WIN_HEIGHT, i);
         _boids.push_back(tmp);
     }
@@ -48,24 +49,44 @@ void Core::loop()
 
 void Core::simuUpdate()
 {
+    _time = _clock.getElapsedTime();
+    if (_time.asMilliseconds() < 10)
+        return;
+
     gridTree->cleanTree();
     for (auto it : _boids) {
         gridTree->insertBoid(it);
     }
 
-    _time = _clock.getElapsedTime();
-    if (_time.asMilliseconds() < 10)
-        return;
-    _clock.restart();
     for (auto it : _boids) {
-        it->update();
-        it->spriteBoid.setColor({255, 255, 255, 255});
+        if (!_pause) {
+            it->update();
+        }
     }
-    std::vector<Boid *> listboid;
-    gridTree->query(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y, 100, &listboid);
+
+    //// DEBUG SECTION ////
+    
+    // std::vector<Boid *> listboid;
+    // gridTree->query(sf::Mouse::getPosition(*_window).x, sf::Mouse::getPosition(*_window).y, 100, &listboid);
+
+    // for (auto it : listboid) {
+    //     it->bodyCircle.setFillColor({0, 255, 0, 255});
+    //     std::cout << it->_id << std::endl;
+    // }
+    // std::cout << "---------------" << std::endl;
+    // for (auto it : _boids) {
+    //     if (distance({(float)sf::Mouse::getPosition(*_window).x, (float)sf::Mouse::getPosition(*_window).y}, {it->getPositionX(), it->getPositionY()}) < 100) {
+    //         it->bodyCircle.setFillColor({0, 0, 255, 255});
+    //         std::cout << it->_id << std::endl;
+    //     }
+    // }
+    // std::cout << "------------- FIN ------------" << std::endl;
+
+    //////////////////////
+    
     std::cout << THEcount << std::endl;
     THEcount = 0;
-    // sleep(1);
+    _clock.restart();
 }
 
 void Core::simuDraw()
@@ -79,10 +100,12 @@ void Core::simuDraw()
 
 void Core::events()
 {
+    static int ide = 0;
     while (_window->pollEvent(_event)) {
         if (_event.type == sf::Event::MouseButtonPressed) {
             if (_event.mouseButton.button == sf::Mouse::Left) {
-                _boids.push_back(new Boid(*this, _event.mouseButton.x, _event.mouseButton.y, -1));
+                _boids.push_back(new Boid(*this, _event.mouseButton.x, _event.mouseButton.y, ide));
+                ide += 1;
             }
         }
 
@@ -107,6 +130,13 @@ void Core::events()
                     _visualQTree = false;
                 } else {
                     _visualQTree = true;
+                }
+            }
+            if (_event.key.code == sf::Keyboard::Space) {
+                if (_pause) {
+                    _pause = false;
+                } else {
+                    _pause = true;
                 }
             }
         }

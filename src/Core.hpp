@@ -11,7 +11,6 @@
 #define WIN_WIDTH 1920
 #define WIN_HEIGHT 1080
 
-// #include "Boid.hpp"
 #include "QTree.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -25,7 +24,7 @@ class QTree;
 
 extern int THEcount;
 
-class Core {
+class Core : public MathTools {
     public:
         Core(sf::RenderWindow *window);
         ~Core();
@@ -51,6 +50,7 @@ class Core {
 
         std::vector<Boid *>     _boids;
         bool                    _visualQTree;
+        bool                    _pause;
 };
 
 #endif /* !CORE_HPP_ */

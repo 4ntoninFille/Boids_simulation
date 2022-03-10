@@ -8,7 +8,7 @@
 #include "Boid.hpp"
 
 Boid::Boid(Core &coreRef, float x, float y, int id)
-    :   _coreRef(&coreRef), _position(sf::Vector2f(x, y)), _id(id)
+    :  _id(id),  _coreRef(&coreRef), _position(sf::Vector2f(x, y))
 {
     float dx = 0;
     float dy = 0;
@@ -18,28 +18,19 @@ Boid::Boid(Core &coreRef, float x, float y, int id)
         dy = (rand() % 10) - 5;
     }
 
-    if (_id == 1) {
-        spriteBoid.setColor({255, 0, 0, 255});
-    }
-
-
-    spriteBoid = sf::Sprite();
-    spriteBoid.setOrigin({10, 10});
-    spriteBoid.setPosition(_position);
+    bodyCircle = sf::CircleShape(1);
+    bodyCircle.setPosition(_position);
 
     _maxForce = 0.1;
     _maxSpeed = 5;
     _dir = normaliseVector({dx, dy});
     _dir = setMagnitudeVector(_dir, _maxSpeed);
     _boidSize = 5;
-    _perception = 50;
+    _perception = 100;
 
-    _coefAlignement = 1;
+    _coefAlignement = 5;
     _coefCohesion = 0.5;
-    _coefSeparation = 1.2;
-
-    _textureBoid = AssetManager<sf::Texture>::getAssetManager().getAsset("assets/ball.png");
-    spriteBoid.setTexture(_textureBoid);
+    _coefSeparation = 15;
 }
 
 Boid::~Boid()
@@ -49,23 +40,23 @@ Boid::~Boid()
 void Boid::update()
 {
     std::vector<Boid *> listboid;
-    // _coreRef->gridTree->query(_position.x, _position.y, _perception, &listboid);
+    _coreRef->gridTree->query(_position.x, _position.y, _perception, &listboid);
 
 
-    align(_coreRef->getBoids());
-    // align(listboid);
+    // align(_coreRef->getBoids());
+    align(listboid);
     edge();
 
     _position = addVector(_dir, _position);
     _dir = addVector(_dir, _acceleration);
 
-    spriteBoid.setPosition(_position);
+    bodyCircle.setPosition(_position);
 
 }
 
 void Boid::draw()
 {
-    _coreRef->getWindow()->draw(spriteBoid);
+    _coreRef->getWindow()->draw(bodyCircle);
 }
 
 void Boid::align(std::vector<Boid *> boids)
@@ -84,9 +75,10 @@ void Boid::align(std::vector<Boid *> boids)
     for (auto it : boids) {
         THEcount += 1;
         dist = distance(_position, it->_position);
-        if (dist > _perception) {
-            continue;
-        }
+        // if (dist > _perception) {
+        //     continue;
+        // }
+
         //  alignement;
         vectorAlignement.x += it->_dir.x;
         vectorAlignement.y += it->_dir.y;
@@ -95,7 +87,7 @@ void Boid::align(std::vector<Boid *> boids)
         vectorCohesion += it->_position;
 
         //  separation 
-        if (it != this && dist < 30) {
+        if (it != this && dist < 10) {
             vectorSeparation.x = _position.x - it->_position.x;
             vectorSeparation.y = _position.y - it->_position.y;
             countSeparation += 1;

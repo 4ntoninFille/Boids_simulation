@@ -16,6 +16,10 @@ Boundary::Boundary(float x, float y, float width, float height)
         _width(width),
         _height(height)
 {
+    _left = x - width / 2;
+    _right = x + width / 2;
+    _top = y - height / 2;
+    _bottom = y + height / 2;
     shaped = sf::RectangleShape({width, height});
     shaped.setOrigin({width / 2, height / 2});
     shaped.setFillColor({0, 0, 0, 0});
@@ -39,11 +43,11 @@ bool Boundary::contains(float ptx, float pty) const
     return false;
 }
 
-bool Boundary::intersect(float ptx, float pty, float width, float height) const
+bool Boundary::intersect(Boundary range) const
 {
     
-    return !(ptx - width > _x + _width
-            || ptx + width < _x - _width
-            || pty - height > _y + _height
-            || pty + height < _y - _height);
+    return !(
+        this->_right < range._left || range._right < this->_left ||
+        this->_bottom < range._top || range._bottom < this->_top
+    );
 }

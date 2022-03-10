@@ -16,12 +16,17 @@ public:
     ~Boundary();
 
     bool    contains(float x, float y) const;
-    bool    intersect(float x, float y, float width, float height) const;
+    bool    intersect(Boundary range) const;
 
     float _x;
     float _y;
     float _width;
     float _height;
+
+    float _left; 
+    float _right;
+    float _top;
+    float _bottom;
 
     sf::RectangleShape shaped;
 protected:

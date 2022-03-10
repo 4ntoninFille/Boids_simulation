@@ -8,7 +8,7 @@
 #ifndef QTREE_HPP_
 #define QTREE_HPP_
 
-#define MAXBOID 10
+#define MAXBOID 300
 
 #include "Boundary.hpp"
 #include "Boid.hpp"
@@ -20,7 +20,7 @@ public:
     QTree(Boundary boundry, sf::RenderWindow *win);
     ~QTree();
 
-    void insertBoid(Boid *newBoid);
+    bool insertBoid(Boid *newBoid);
 
     QTree *northWest;
     QTree *northEst;
