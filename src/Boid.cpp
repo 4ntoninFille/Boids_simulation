@@ -22,8 +22,8 @@ Boid::Boid(Core &coreRef, float x, float y, int id)
     _maxSpeed = 5;
     _dir = normaliseVector({dx, dy});
     _dir = setMagnitudeVector(_dir, _maxSpeed);
-    _boidSize = 1;
-    _perception = 100;
+    _boidSize = 5;
+    _perception = 50;
 
     bodyCircle = sf::CircleShape(_boidSize);
     bodyCircle.setPosition(_position);
@@ -39,12 +39,12 @@ Boid::~Boid()
 
 void Boid::update()
 {
-    std::vector<Boid *> listboid;
-    _coreRef->gridTree->query(_position.x, _position.y, _perception, &listboid);
+    // std::vector<Boid *> listboid;
+    // _coreRef->gridTree->query(_position.x, _position.y, _perception, &listboid);
 
 
-    // align(_coreRef->getBoids());
-    align(listboid);
+    align(_coreRef->getBoids());
+    // align(listboid);
     edge();
 
     _position = addVector(_dir, _position);
@@ -75,9 +75,9 @@ void Boid::align(std::vector<Boid *> boids)
     for (auto it : boids) {
         THEcount += 1;
         dist = distance(_position, it->_position);
-        // if (dist > _perception) {
-        //     continue;
-        // }
+        if (dist > _perception) {
+            continue;
+        }
 
         //  alignement;
         vectorAlignement.x += it->_dir.x;

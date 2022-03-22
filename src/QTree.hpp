@@ -8,7 +8,6 @@
 #ifndef QTREE_HPP_
 #define QTREE_HPP_
 
-#define MAXBOID 300
 
 #include "Boundary.hpp"
 #include "Boid.hpp"
@@ -34,6 +33,8 @@ public:
     void                query(float x, float y, float range, std::vector<Boid *> *boidsFind);
     void                showBoundary();
     void                cleanTree();
+
+    int                 maxboids;
 
 protected:
 private:

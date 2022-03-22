@@ -10,6 +10,7 @@
 QTree::QTree(Boundary bndry, sf::RenderWindow *win)
     :   boundary(bndry)
 {
+    maxboids = 10;
     _divided = false;
     _win = win;
 }
@@ -32,7 +33,7 @@ bool QTree::insertBoid(Boid *newBoid)
         return false;
     }
 
-    if ((boids.size() < MAXBOID && !_divided) || (boundary._width <= 20 && boundary._height <= 20)) {
+    if ((int(boids.size()) < maxboids && !_divided) || (boundary._width <= 20 && boundary._height <= 20)) {
         boids.push_back(newBoid);
         return true;
     }

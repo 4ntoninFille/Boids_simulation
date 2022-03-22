@@ -17,7 +17,7 @@ Core::Core(sf::RenderWindow *window)
     _pause = false;
 
     srand (static_cast <unsigned> (time(0)));
-    for (int i = 0; i < 500; i++) {
+    for (int i = 0; i < 300; i++) {
         Boid *tmp = new Boid(*this, rand() % WIN_WIDTH, rand() % WIN_HEIGHT, i);
         _boids.push_back(tmp);
     }
@@ -63,29 +63,10 @@ void Core::simuUpdate()
             it->update();
         }
     }
-
-    //// DEBUG SECTION ////
     
-    // std::vector<Boid *> listboid;
-    // gridTree->query(sf::Mouse::getPosition(*_window).x, sf::Mouse::getPosition(*_window).y, 100, &listboid);
-
-    // for (auto it : listboid) {
-    //     it->bodyCircle.setFillColor({0, 255, 0, 255});
-    //     std::cout << it->_id << std::endl;
-    // }
-    // std::cout << "---------------" << std::endl;
-    // for (auto it : _boids) {
-    //     if (distance({(float)sf::Mouse::getPosition(*_window).x, (float)sf::Mouse::getPosition(*_window).y}, {it->getPositionX(), it->getPositionY()}) < 100) {
-    //         it->bodyCircle.setFillColor({0, 0, 255, 255});
-    //         std::cout << it->_id << std::endl;
-    //     }
-    // }
-    // std::cout << "------------- FIN ------------" << std::endl;
-
-    //////////////////////
-    
-    std::cout << THEcount << std::endl;
-    THEcount = 0;
+    // std::cout << THEcount << std::endl;
+    // _lastTHEcount = THEcount;
+    // THEcount = 0;
     _clock.restart();
 }
 
@@ -146,6 +127,10 @@ void Core::events()
             return;
         }
     }
+}
+
+void Core::regulateGridTree()
+{
 }
 
 sf::RenderWindow *Core::getWindow() const

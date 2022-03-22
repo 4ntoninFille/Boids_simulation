@@ -42,6 +42,7 @@ class Core : public MathTools {
     protected:
     private:
         void events();
+        void regulateGridTree();
 
         sf::RenderWindow *  _window;
         sf::Event           _event;
@@ -51,6 +52,7 @@ class Core : public MathTools {
         std::vector<Boid *>     _boids;
         bool                    _visualQTree;
         bool                    _pause;
+        int                     _lastTHEcount;
 };
 
 #endif /* !CORE_HPP_ */
