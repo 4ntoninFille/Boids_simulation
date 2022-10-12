@@ -1,5 +1,5 @@
 # Boids_simulation
-Simulation of Boids movement in SFMl
+Simulation of Boids movement in SFML
 
 In this project, i wanted to implement a Boids simulation and a QuadTree.
 
