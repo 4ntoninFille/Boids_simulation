@@ -16,3 +16,5 @@ You can also increase the value of the Three Boid's rules by pressing :
   - Separation  ```S```
 
 > I setup the project only in Qwerty.
+
+![alt text](https://github.com/4ntoninFille/Boids_simulation/blob/main/pictures/boids.jpg?raw=true)
